@@ -1,4 +1,4 @@
-# Golang Tips 
+# Golang Examples 
 Repositório com códigos e exemplos escritos em golang
 
 ### Build
