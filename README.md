@@ -1,7 +1,7 @@
 # Golang Examples 
 Repositório com códigos e exemplos escritos em golang
 
-### Build
+### Run
 ```shell 
 go run nome_projeto.go
 ```
