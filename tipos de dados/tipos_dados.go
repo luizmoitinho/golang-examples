@@ -21,4 +21,12 @@ func main() {
 	var bits byte = 8
 	fmt.Printf("bits: %d\n", bits)
 
+	fmt.Println("============================")
+	fmt.Println("Tipos de ponto flutuante: ")
+	var numReal1 float32 = 123.5
+	fmt.Println("float32: ", numReal1)
+
+	var numReal2 float64 = 12300000000000.5
+	fmt.Println("float64: ", numReal2)
+
 }
