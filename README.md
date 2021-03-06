@@ -1,5 +1,5 @@
-# curso-golang
-Repositório com Códigos produzidos
+# Golang Tips 
+Repositório com códigos e exemplos escritos em golang
 
 ### Build
 ```shell 
