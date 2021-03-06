@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 func main() {
 	//int8, int16, int32 e int64
@@ -28,5 +31,26 @@ func main() {
 
 	var numReal2 float64 = 12300000000000.5
 	fmt.Println("float64: ", numReal2)
+
+	fmt.Println("============================")
+	fmt.Println("Strings: ")
+
+	var str string = "Luiz Moitinho"
+	fmt.Println(str)
+
+	char := 'B'
+	fmt.Println("ASCII: B = ", char)
+
+	fmt.Println("============================")
+	fmt.Println("Booleano: ")
+
+	var status bool = true
+	fmt.Println("Ativo? ", status)
+
+	fmt.Println("============================")
+	fmt.Println("Error: ")
+
+	var erro error = errors.New("Novo erro criado")
+	fmt.Println(erro)
 
 }
