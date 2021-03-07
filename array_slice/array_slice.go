@@ -25,4 +25,11 @@ func main() {
 
 	slice2 := array2[0:2]
 	fmt.Println(slice2)
+
+	fmt.Printf("\nArrays Internos: make\n")
+	slice3 := make([]float64, 5, 6)
+	fmt.Println(slice3, len(slice3), cap(slice3))
+	slice3 = append(slice3, 10.5)
+	slice3 = append(slice3, 12.5)
+	fmt.Println(slice3, len(slice3), cap(slice3))
 }
