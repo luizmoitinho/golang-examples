@@ -22,4 +22,24 @@ func main() {
 	fmt.Println(1 != 2)
 
 	fmt.Printf("\nOperadores relacionais: &&, ||, ! \n")
+	verdadeiro, falso := true, false
+
+	fmt.Println("true && false: ", verdadeiro && falso)
+
+	fmt.Println("true || false: ", verdadeiro || falso)
+
+	fmt.Println("!true: ", !verdadeiro)
+
+	fmt.Println("!false: ", !falso)
+
+	fmt.Printf("\nOperadores unários: ++, -- \n")
+	numero := 10
+	numero++
+	fmt.Println("numero = 10")
+	fmt.Println("numero++:", numero)
+	numero--
+	fmt.Println("numero--:", numero)
+	numero += 3
+	fmt.Println("numero+=3:", numero)
+
 }
