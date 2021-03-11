@@ -11,11 +11,7 @@ func main() {
 	channel := make(chan string)
 	go escrever("Go routine 1", channel)
 
-	for {
-		msg, open := <-channel
-		if !open {
-			break
-		}
+	for msg := range channel {
 		fmt.Println(msg)
 	}
 
