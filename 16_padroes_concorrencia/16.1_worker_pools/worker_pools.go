@@ -25,11 +25,11 @@ func main() {
 		resultado := <-resultado
 		fmt.Println(resultado)
 	}
+	close(resultado)
 
 }
 
 func worker(tarefas <-chan uint, resultado chan<- uint) {
-
 	for numero := range tarefas {
 		resultado <- fibonacci(numero)
 	}
