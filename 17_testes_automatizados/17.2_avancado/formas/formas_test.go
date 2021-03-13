@@ -54,5 +54,3 @@ func TestRetangulo(t *testing.T) {
 	}
 
 }
-
-

@@ -17,7 +17,7 @@ type Retangulo struct {
 
 //Area ... cálculo da area do retângulo
 func (r Retangulo) Area() float64 {
-	if r.Altura == r.Largura || (r.Altura == 0 && r.Largura == 0) {
+	if r.Altura == r.Largura || (r.Altura <= 0 && r.Largura <= 0) {
 		return float64(0.0)
 	}
 	return r.Altura * r.Largura
