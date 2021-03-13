@@ -25,6 +25,9 @@ func (r Retangulo) Area() float64 {
 
 //Area ... cálculo da área do círculo
 func (c Circulo) Area() float64 {
+	if c.Raio <= 0 {
+		return float64(0.0)
+	}
 	return math.Pi * math.Pow(c.Raio, 2)
 }
 
