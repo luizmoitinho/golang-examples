@@ -10,11 +10,13 @@ import "testing"
 */
 
 func TestTipoEndereco(t *testing.T) {
-	enderecoTeste := "Avenida Paulista"
+	enderecoTeste := "Rua Paulista"
 	tipoEnderecoEsperado := "Avenida"
+	resultado := TipoEndereco(enderecoTeste)
 
-	if TipoEndereco(enderecoTeste) != tipoEnderecoEsperado {
-		t.Error("O tipo recebido é diferente do esperado.")
+	if resultado != tipoEnderecoEsperado {
+		t.Errorf("O tipo recebido é diferente do esperado. Esperava %s e recebeu %s",
+			tipoEnderecoEsperado, resultado)
 	}
-	
+
 }
