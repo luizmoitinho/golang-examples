@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -19,5 +20,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	fmt.Println(cachorroJSON)
+	fmt.Println(bytes.NewBuffer(cachorroJSON))
+
 }
