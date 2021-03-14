@@ -9,13 +9,19 @@ import (
 
 var templates *template.Template
 
+type usuario struct {
+	Nome  string
+	Email string
+}
+
 func main() {
 
 	templates = template.Must(template.ParseGlob("*.html"))
 
 	//URI: /home
 	http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
-		templates.ExecuteTemplate(w, "home.html", nil)
+		u := usuario{"Luiz Moitinho", "luizcarlos_costam@hotmail.com"}
+		templates.ExecuteTemplate(w, "home.html", u)
 	})
 
 	fmt.Println("Escutando na porta 5000")
