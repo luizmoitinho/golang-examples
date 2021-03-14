@@ -1,0 +1,9 @@
+{
+  "nome":"Luiz Carlos",
+  "idade":22,
+  "cursos":[
+    {
+      "nome":"Sistemas de Informação"
+    }
+  ]
+}
