@@ -17,11 +17,18 @@ func main() {
 	c := cachorro{}
 	cachorroJSON := `{"idade":2,"nome":"Toby","raca":"Poodle"}`
 
-	err := json.Unmarshal([]byte(cachorroJSON), &c)
-	if err != nil {
+	if err := json.Unmarshal([]byte(cachorroJSON), &c); err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println(c)
 
+	fmt.Printf("\n\nConvertendo JSON => Map")
+	cachorro2JSON := `{"nome":"Toby","raca":"Poodle"}`
+	c2 := make(map[string]string)
+	if err := json.Unmarshal([]byte(cachorro2JSON), &c2); err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(c2)
 }
