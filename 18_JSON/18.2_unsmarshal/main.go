@@ -7,6 +7,7 @@ import (
 )
 
 type cachorro struct {
+	ID    int    `json: -`
 	Nome  string `json: "nome"`
 	Raca  string `json: "raca"`
 	Idade int    `json: "idade"`
