@@ -30,4 +30,13 @@ func main() {
 	}
 
 	fmt.Println("Conexao com banco de dados estabelecida.")
+
+	res, err := db.Query("SELECT * FROM tb_usuarios")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer res.Close()
+	
+	fmt.Println(res)
+
 }

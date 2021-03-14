@@ -6,6 +6,10 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
+type DB struct {
+	
+}
+
 type Config struct {
 	Server   string
 	Database string
