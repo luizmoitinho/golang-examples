@@ -27,7 +27,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(usuario)
 	usuario, err = repository.InsertUsuario(usuario)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -38,3 +37,25 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf("Usuário inserido com sucesso, Id: %d", usuario.ID)))
 
 }
+
+//GetUSer ... retorna todos os usuarios
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+	usuarios, err := repository.GetUsers()
+	fmt.Println(usuarios)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	}
+
+	if err := json.NewEncoder(w).Encode(usuarios); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	}
+
+}
+
+//GetUSer ... retorna um usuário especifico
+// func GetUser(w http.ResponseWriter, r *http.Request)
+// {
+
+// }
