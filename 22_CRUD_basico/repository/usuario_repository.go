@@ -124,3 +124,24 @@ func UpdateUser(usuario models.Usuario) (models.Usuario, error) {
 	return usuario, nil
 
 }
+
+func DeleteUser(ID int64) error {
+
+	db, err := getConnection()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	statement, err := db.Prepare("DELETE FROM tb_usuarios WHERE id = ?")
+	if err != nil {
+		return fmt.Errorf("usuario_repository.DeleteUser(): erro ao criar o statement")
+	}
+
+	defer db.Close()
+	defer statement.Close()
+	if _, err := statement.Exec(ID); err != nil {
+		return fmt.Errorf("usuario_repository.DeleteUser(): Erro ao remover o usuário: %v", err)
+	}
+
+	return nil
+}
