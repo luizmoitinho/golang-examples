@@ -83,3 +83,43 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+//UpdateUser ... atualiza um usuario especifico
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	ID, err := strconv.ParseInt(params["id"], 10, 64)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Falha ao tentar receber o valor do parâmetro id"))
+		return
+	}
+
+	bodyRequest, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		w.Write([]byte("Falha ao ler o corpo da requisição"))
+		return
+	}
+
+	var usuario models.Usuario
+	if err = json.Unmarshal(bodyRequest, &usuario); err != nil {
+		w.Write([]byte("Erro ao converter o usuário para struct"))
+		return
+	}
+
+	usuario.ID = ID
+	usuario, err = repository.UpdateUser(usuario)
+	if err = json.Unmarshal(bodyRequest, &usuario); err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	if err := json.NewEncoder(w).Encode(usuario); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+
+}

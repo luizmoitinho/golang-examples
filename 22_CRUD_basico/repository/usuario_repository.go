@@ -11,18 +11,20 @@ import (
 	_ "github.com/go-sql-driver/mysql" // Driver de conexao com o Mysql
 )
 
-var db *sql.DB
-var err error
-
-func init() {
-
-	db, err = Connect()
+func getConnection() (*sql.DB, error) {
+	db, err := Connect()
 	if err != nil {
-		fmt.Println("Erro ao estabelecer conexao com o banco de dados: %v", err)
+		return db, fmt.Errorf("Erro ao estabelecer conexao com o banco de dados: %v", err)
 	}
+	return db, nil
 }
 
 func InsertUsuario(usuario models.Usuario) (models.Usuario, error) {
+	db, err := getConnection()
+	if err != nil {
+		return usuario, fmt.Errorf(err.Error())
+	}
+
 	statement, err := db.Prepare("INSERT INTO tb_usuarios (nome, email) VALUES (?, ?)")
 	if err != nil {
 		return usuario, fmt.Errorf("usuario_repository.Insert(): erro ao criar o statement")
@@ -48,10 +50,18 @@ func InsertUsuario(usuario models.Usuario) (models.Usuario, error) {
 func GetUserById(ID int64) (models.Usuario, error) {
 	var usuario models.Usuario
 
+	db, err := getConnection()
+	if err != nil {
+		return usuario, fmt.Errorf(err.Error())
+	}
+
 	query, err := db.Query("SELECT id, nome, email FROM tb_usuarios WHERE id = ?", ID)
 	if err != nil {
 		return usuario, fmt.Errorf("usuario_repository.getUserById(): erro ao criar o statement")
 	}
+
+	defer query.Close()
+	defer db.Close()
 
 	if query.Next() {
 		if err := query.Scan(&usuario.ID, &usuario.Nome, &usuario.Email); err != nil {
@@ -63,12 +73,16 @@ func GetUserById(ID int64) (models.Usuario, error) {
 }
 
 func GetUsers() ([]models.Usuario, error) {
-
 	var usuarios []models.Usuario
+
+	db, err := getConnection()
+	if err != nil {
+		return usuarios, fmt.Errorf(err.Error())
+	}
 
 	query, err := db.Query("SELECT id, nome, email FROM tb_usuarios")
 	if err != nil {
-		return usuarios, fmt.Errorf("usuario_repository.GetUsers(): erro ao criar a query")
+		return usuarios, fmt.Errorf("usuario_repository.GetUsers(): erro ao criar a query: %v", err)
 	}
 
 	defer query.Close()
@@ -87,4 +101,26 @@ func GetUsers() ([]models.Usuario, error) {
 	}
 
 	return usuarios, nil
+}
+
+func UpdateUser(usuario models.Usuario) (models.Usuario, error) {
+	fmt.Println(usuario)
+	db, err := getConnection()
+	if err != nil {
+		return usuario, fmt.Errorf(err.Error())
+	}
+
+	statement, err := db.Prepare("UPDATE tb_usuarios set nome = ?, email = ? WHERE id = ?")
+	if err != nil {
+		return usuario, fmt.Errorf("usuario_repository.UpdateUser(): erro ao criar o statement")
+	}
+
+	defer statement.Close()
+	defer db.Close()
+
+	if _, err := statement.Exec(usuario.Nome, usuario.Email, usuario.ID); err != nil {
+		return usuario, fmt.Errorf("usuario_repository.UpdateUser(): erro ao atualizar o usuario")
+	}
+	return usuario, nil
+
 }
