@@ -104,7 +104,7 @@ func GetUsers() ([]models.Usuario, error) {
 }
 
 func UpdateUser(usuario models.Usuario) (models.Usuario, error) {
-	fmt.Println(usuario)
+
 	db, err := getConnection()
 	if err != nil {
 		return usuario, fmt.Errorf(err.Error())

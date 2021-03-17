@@ -45,7 +45,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 //GetUSer ... retorna todos os usuarios
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	usuarios, err := repository.GetUsers()
-	fmt.Println(usuarios)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
