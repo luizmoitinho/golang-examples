@@ -34,6 +34,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
+		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
@@ -48,11 +49,13 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
+		return
 	}
 
 	if err := json.NewEncoder(w).Encode(usuarios); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
+		return
 	}
 
 }
@@ -64,12 +67,19 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Falha ao tentar receber o valor do parâmetro id"))
+		return
 	}
 
 	usuario, err := repository.GetUserById(ID)
+	if usuario.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Usuário nao foi encontrado"))
+		return
+	}
 	if err := json.NewEncoder(w).Encode(usuario); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
+		return
 	}
 
 }
