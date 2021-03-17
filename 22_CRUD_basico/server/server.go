@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"crud/models"
 
 	"crud/repository"
+
+	"github.com/gorilla/mux"
 )
 
 //CreateUser ... insere um usuario no banco de dados
@@ -55,7 +58,18 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 //GetUSer ... retorna um usuário especifico
-// func GetUser(w http.ResponseWriter, r *http.Request)
-// {
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	ID, err := strconv.ParseInt(params["id"], 10, 64)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Falha ao tentar receber o valor do parâmetro id"))
+	}
 
-// }
+	usuario, err := repository.GetUserById(ID)
+	if err := json.NewEncoder(w).Encode(usuario); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	}
+
+}

@@ -45,14 +45,22 @@ func InsertUsuario(usuario models.Usuario) (models.Usuario, error) {
 
 }
 
-// func getUserById(usuario models.Usuario) (models.Usuario, error) {
+func GetUserById(ID int64) (models.Usuario, error) {
+	var usuario models.Usuario
 
-// 	statement, err := db.Prepare("SELECT id, nome, email FROM tb_usuarios WHERE id = ?")
-// 	if err != nil {
-// 		return usuario, fmt.Errorf("usuario_repository.getUserById(): erro ao criar o statement")
-// 	}
+	query, err := db.Query("SELECT id, nome, email FROM tb_usuarios WHERE id = ?", ID)
+	if err != nil {
+		return usuario, fmt.Errorf("usuario_repository.getUserById(): erro ao criar o statement")
+	}
 
-// }
+	if query.Next() {
+		if err := query.Scan(&usuario.ID, &usuario.Nome, &usuario.Email); err != nil {
+			return usuario, fmt.Errorf("usuario_repository.GetUsers(): %v", err)
+		}
+	}
+
+	return usuario, nil
+}
 
 func GetUsers() ([]models.Usuario, error) {
 
@@ -62,7 +70,9 @@ func GetUsers() ([]models.Usuario, error) {
 	if err != nil {
 		return usuarios, fmt.Errorf("usuario_repository.GetUsers(): erro ao criar a query")
 	}
+
 	defer query.Close()
+	defer db.Close()
 
 	for query.Next() {
 
